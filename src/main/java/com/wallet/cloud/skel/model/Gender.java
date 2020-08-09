@@ -1,15 +1,16 @@
-package com.cepheid.cloud.skel.model;
+package com.wallet.cloud.skel.model;
 
 import java.io.Serializable;
 
-public enum State implements Serializable{
+public enum Gender implements Serializable{
 	
-		  UNDEFINED("UNDEFINED"),
-		  VALID("VALID"),
-		  INVALID("INVALID");
+		  MALE("MALE"),
+		  FEMALE("FEMALE"),
+		  NOT_DISCLOSE("NOT_DISCLOSE");
+		  
 	private String name;
 	
-	State(String name) {
+	Gender(String name) {
 	 this.name=name;
 	}
 
@@ -24,7 +25,7 @@ public enum State implements Serializable{
 	}
 
 
-	public String getState() {
+	public String getGender() {
         return this.name();
     }
 		

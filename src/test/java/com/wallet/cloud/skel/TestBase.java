@@ -1,4 +1,4 @@
-package com.cepheid.cloud.skel;
+package com.wallet.cloud.skel;
 
 import java.net.URI;
 
@@ -13,6 +13,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.wallet.cloud.skel.SkelApplication;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {
     SkelApplication.class })

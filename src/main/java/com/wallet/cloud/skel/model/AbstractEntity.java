@@ -1,4 +1,4 @@
-package com.cepheid.cloud.skel.model;
+package com.wallet.cloud.skel.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -1,41 +1,93 @@
-# Item Repository Spring Boot Application #
+# Wallet Spring Boot Application #
 
 ### Project Overview ###
 
-This project contains an unfinished implementation of a simple repository for Items.
-
+To build a simple wallet microservice running on the JVM that manages credit/debit
+transactions on behalf of players.
 
 ### Application structure ###
 
 The application is implemented as a Spring Boot application using an in memory H2 Database Engine to store the data. 
+The application is structured in a controller package with an AccountController,PlayerController and TransactionController, 
+that exposes multiple REST endpoints. A model package with the data model and its associated enums and classes. This data 
+model contains three entity class - Account,Player and Transaction.
+A repository package with AccountRepository,TransactionRepository and PlayerRepository to access the database.
+The main class in the application is com.wallet.cloud.skel.SkelApplication. Running this class will start the application 
+and insert two players object and their respective mapped  Account object in one-to-one relationship into the database.
 
-The application is structured in a controller package with an ItemController that exposes a REST endpoint with one GET Items method. A model package with the data model. This data model currently only contains one entity Item. A repository package with an ItemRepository to access the database.
-
-The main class in the application is com.cepheid.cloud.skel.SkelApplication. Running this class will start the application and insert four empty Item entities into the database.
-
-There is also one unfinished JUnit test in com.cepheid.cloud.skel.ItemControllerTest
+There is also implemented JUnit testcases in com.wallet.cloud.skel.AccountControllerTest,
+com.wallet.cloud.skel.PlayerControllerTest,com.wallet.cloud.skel.TransactionControllerTest,
 
 ### Task ###
+1) Current balance per player 
+URL- http://localhost:9443/app/api/1.0/players      HTTP.GET  (Gives List of all players along with account details)
 
-Your task is to "complete" the implementation. At a very minimum you need to implement the following:
+2) Insert new player and map to new Account
+Sample URL- http://localhost:9443/app/api/1.0/players     HTTP.POST
+Content-type=application/json 
+Sample Body in JSON - 
+{
+        "name": "Player3",
+        "gender": "FEMALE",
+        "age": 28,
+        "account": {
+            "accountNumber": "300",
+            "balance": 10000,
+            "id": 3
+        },
+        "id": 3
+    }
+	
+3) Get list of all accounts
+Sample URL- http://localhost:9443/app/api/1.0/accounts      HTTP.GET  
 
-* Add some attributes to the Item class, e.g. a name, a state that can have one of these three values (undefined, valid, invalid) etc.
-* Create a new entity class Description, and setup a one to many relation between Item and Description. I.e. an Item has many Descriptions.
-* Add Item CRUD methods to the controller.
-* Add methods to the controller to query for specific Items based on it's attributes.
-* Add something of your own choice that uses something from the Spring framework or demonstrates some Object-Oriented Programming Concepts. 
+4) Credit per player. The caller will supply a transaction id that must be unique for all
+transactions. If the transaction id is not unique, the operation must fail. 
 
-Whatever code you produce, at the end of this exercise it should be of production quality, compile and run even if functionality is not complete.
+Sample URL- http://localhost:9443/app/api/1.0/accounts/credit/Player1/4000/1   HTTP.PUT
+URL Structure-http://localhost:9443/app/api/1.0/accounts/credit/{PlayerName}/{credit_amount}/{Unique_Transaction_Id}
 
+5)  Debit /Withdrawal per player A debit transaction will only succeed if there are
+sufficient funds on the account (balance - debit amount >= 0).
+The caller will supply a transaction id that must be unique for all transactions. If the
+transaction id is not unique, the operation must fail. 
+
+Sample URL- http://localhost:9443/app/api/1.0/accounts/debit/Player1/4000/2   HTTP.PUT
+URL Structure-http://localhost:9443/app/api/1.0/accounts/debit/{PlayerName}/{debit_amount}/{Unique_Transaction_Id}
+
+6) Transaction History per player
+
+Sample URL- http://localhost:9443/app/api/1.0/transactions/transactionHistoryByPlayerName/Player1  HTTP.GET
+Url Structure: http://localhost:9443/app/api/1.0/transactions/transactionHistoryByPlayerName/{PlayerName}
+
+7)Transaction History by accountNumber
+Sample URL- http://localhost:9443/app/api/1.0/transactions/transactionHistoryByAccountNumber/100   HTTP.GET
+Url Structure: http://localhost:9443/app/api/1.0/transactions/transactionHistoryByAccountNumber/{AccountNumber}
+
+8) To persist data after restart of application , I have added this properties in application.properties file,hence storing 
+the data in local file :
+spring.jpa.hibernate.ddl-auto: update
+spring.datasource.url: jdbc:h2:file:~/data/testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+
+Note: If you are restarting the application in this mode above ,please remove or comment out in SkelApplication.java below lines:
+ @Bean
+  ApplicationRunner initItems(){
+  }
+  to avoid error in application restart.
+  
+Note: JUNIT test will only run successfully,when in application.properties file :
+spring.datasource.url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE 
+  
 ### Installation ###
 
-Clone or download the repository from https://github.com/rxdevcepheid/spring-skel
+Clone or download the repository from https://github.com/partha20in/Wallet
 
 The project is prepared to be used with Gradle and Eclipse IDE. (Gradle plugin buildship is by default included in Eclipse). You can of course use any other IDE if you like.
 
-Project is configured to use JavaSE-11. But it works with JavaSE-1.8 or greater, so you can either install Java 11 or change the project settings to your existing version of Java.
+Project is configured to use JavaSE-11.
 
-Project is tested using Eclipse 2018-12 (seems to be some problem when using Eclipse 2019). https://www.eclipse.org/eclipseide/2018-12/
+Project is tested using Eclipse IDE for Enterprise Java Developers Version: 2020-06 (4.16.0) but you can use other version.
+
 
 This is how you import the project into Eclipse:
 
@@ -46,11 +98,9 @@ This is how you import the project into Eclipse:
 
 ### Starting application/ Run Tests ###
 
-Right click on com.cepheid.cloud.skel.SkelApplication and select Run As -> Java Application
-Right click on com.cepheid.cloud.skel.ItemControllerTest and select Run As -> JUnit Test
+Right click on com.wallet.cloud.skel.SkelApplication and select Run As -> Java Application
+Right click on com.wallet.cloud.skel.AccountControllerTest and select Run As -> JUnit Test
+Right click on com.wallet.cloud.skel.PlayerControllerTest and select Run As -> JUnit Test
+Right click on com.wallet.cloud.skel.TransactionControllerTest and select Run As -> JUnit Test
 
-### Useful Links ###
 
-* https://spring.io/projects/spring-boot
-* https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
-* https://www.h2database.com/html/main.html

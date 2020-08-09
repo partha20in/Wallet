@@ -1,4 +1,4 @@
-package com.cepheid.cloud.skel;
+package com.wallet.cloud.skel;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

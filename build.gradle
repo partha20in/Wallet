@@ -9,8 +9,8 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'project-report'
 apply plugin: 'eclipse'
 
-mainClassName = 'com.cepheid.cloud.skel.SkelApplication'
-group = 'com.cepheid.cloud.skel'
+mainClassName = 'com.wallet.cloud.skel.SkelApplication'
+group = 'com.wallet.cloud.skel'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 

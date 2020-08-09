@@ -1,4 +1,4 @@
-package com.cepheid.cloud.skel;
+package com.wallet.cloud.skel;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -6,7 +6,7 @@ import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.springframework.stereotype.Component;
 
-import com.cepheid.cloud.skel.controller.ItemController;
+import com.wallet.cloud.skel.controller.AccountController;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
@@ -15,7 +15,7 @@ import io.swagger.jaxrs.listing.SwaggerSerializers;
 @Component
 public class JerseyConfig extends ResourceConfig {
   public JerseyConfig() {
-    packages(ItemController.class.getPackage().getName());
+    packages(AccountController.class.getPackage().getName());
     
     property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
     register(RolesAllowedDynamicFeature.class);
@@ -39,7 +39,7 @@ public class JerseyConfig extends ResourceConfig {
     beanConfig.setHost("localhost:9443");
     beanConfig.setBasePath("/app");
     // comma separated string
-    beanConfig.setResourcePackage(ItemController.class.getPackage().getName());
+    beanConfig.setResourcePackage(AccountController.class.getPackage().getName());
     beanConfig.setPrettyPrint(true);
     beanConfig.setScan(true);
     beanConfig.setTitle("REST API");
