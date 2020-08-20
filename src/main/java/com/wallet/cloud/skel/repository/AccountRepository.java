@@ -12,11 +12,10 @@ import org.springframework.stereotype.Repository;
 import com.wallet.cloud.skel.model.*;
 
 @Repository
-public interface AccountRepository extends PagingAndSortingRepository<Account, Long>{
+public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
-	//@Query("FROM Account WHERE mId= ?1")
 	Account findBymId(Long id);
-	
+
 	@SuppressWarnings("unchecked")
 	Account save(Account acc);
 

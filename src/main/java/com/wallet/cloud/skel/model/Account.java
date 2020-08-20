@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Account")
 public class Account extends AbstractEntity implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -21,11 +21,9 @@ public class Account extends AbstractEntity implements Serializable {
 	@Column(unique = true)
 	private String accountNumber;
 	private long balance;
-	@OneToOne(fetch = FetchType.EAGER,
-            cascade =  CascadeType.ALL,
-            mappedBy = "account")
-    private Player player;
-	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "account")
+	private Player player;
+
 	public Account() {
 		super();
 	}
@@ -51,7 +49,7 @@ public class Account extends AbstractEntity implements Serializable {
 	public void setBalance(long balance) {
 		this.balance = balance;
 	}
-	
+
 	public Long getId() {
 		return mId;
 	}
@@ -64,9 +62,5 @@ public class Account extends AbstractEntity implements Serializable {
 	public String toString() {
 		return "Account [mId=" + mId + ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
 	}
-
-	
-	
-	
 
 }

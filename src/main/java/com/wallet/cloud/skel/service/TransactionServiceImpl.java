@@ -30,13 +30,13 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-	public Page<Transaction> getAllTransactionsByAccountNumber(Pageable pageable,String accountnumber) {
+	public Page<Transaction> getAllTransactionsByAccountNumber(Pageable pageable, String accountnumber) {
 		logger.info("Inside getAllTransactionsByAccountNumber Service");
-		return tranrepo.findByAccountNumber(pageable,accountnumber);
+		return tranrepo.findByAccountNumber(pageable, accountnumber);
 	}
 
-	public Page<Transaction> getAllTransactionByPlayerName(Pageable pageable,String playerName) {
+	public Page<Transaction> getAllTransactionByPlayerName(Pageable pageable, String playerName) {
 		logger.info("Inside getAllTransactionsByPlayerName Service");
-		return tranrepo.findByPlayerName(pageable,playerName);
+		return tranrepo.findByPlayerName(pageable, playerName);
 	}
 }
