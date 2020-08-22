@@ -23,7 +23,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
 	Page<Transaction> findByPlayerName(Pageable pageable,String playerName);
 
 //	@Query("FROM Transaction WHERE mId= ?1")
-	Optional<Transaction> findBymId(Long mId);
+	Optional<Transaction> findByTransactionId(Long transactionId);
 
 	@SuppressWarnings("unchecked")
 	Transaction save(Transaction transaction);

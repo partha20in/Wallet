@@ -11,9 +11,10 @@ import com.wallet.cloud.skel.model.Account;
 import com.wallet.cloud.skel.model.Player;
 import com.wallet.cloud.skel.repository.AccountRepository;
 import com.wallet.cloud.skel.repository.PlayerRepository;
+import com.wallet.cloud.skel.util.PageUtil;
 
 @Service("PlayerService")
-public class PlayerServiceImpl implements PlayerService {
+public class PlayerServiceImpl extends PageUtil implements PlayerService {
 
 	@Autowired
 	PlayerRepository playrepo;
@@ -23,8 +24,10 @@ public class PlayerServiceImpl implements PlayerService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
-	public Page<Player> getAllPlayerDetails(Pageable pageable) {
-		return playrepo.findAll(pageable);
+	public Page<Player> getAllPlayerDetails(int number, int size, String sort) {
+		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
+
+		return playrepo.findAll(pageableObj);
 	}
 
 	public Player insertNewPlayerDetails(Player pl) {

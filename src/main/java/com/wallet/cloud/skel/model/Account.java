@@ -1,26 +1,33 @@
 package com.wallet.cloud.skel.model;
 
 import java.io.Serializable;
-
+import java.math.BigDecimal;
+import javax.persistence.Index;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Account")
-public class Account extends AbstractEntity implements Serializable {
+@Table(name = "Account", indexes = { @Index(name = "wallet_account", columnList = "accountNumber,balance") })
+
+public class Account implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Long mId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	@Column(unique = true)
 	private String accountNumber;
-	private long balance;
+	private BigDecimal balance;
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "account")
 	private Player player;
 
@@ -28,7 +35,7 @@ public class Account extends AbstractEntity implements Serializable {
 		super();
 	}
 
-	public Account(String accountNumber, long balance) {
+	public Account(String accountNumber, BigDecimal balance) {
 		super();
 		this.accountNumber = accountNumber;
 		this.balance = balance;
@@ -42,25 +49,25 @@ public class Account extends AbstractEntity implements Serializable {
 		this.accountNumber = accountNumber;
 	}
 
-	public long getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(long balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 
 	public Long getId() {
-		return mId;
+		return id;
 	}
 
 	public void setId(Long Id) {
-		this.mId = Id;
+		this.id = Id;
 	}
 
 	@Override
 	public String toString() {
-		return "Account [mId=" + mId + ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
+		return "Account [id=" + id + ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
 	}
 
 }

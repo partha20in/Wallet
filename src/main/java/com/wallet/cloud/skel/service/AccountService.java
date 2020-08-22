@@ -1,5 +1,6 @@
 package com.wallet.cloud.skel.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -12,8 +13,8 @@ public interface AccountService {
 
 	Page<Account> getAllAccounts(int number, int size, String sort);
 
-	Account creditAccount(String name, Long credit_amount, Long transactionId);
+	Account creditAccount(String name, BigDecimal credit_amount, Long transactionId);
 
-	Account debitAccount(String name, Long debit_amount, Long transactionId);
+	Account debitAccount(String name, BigDecimal debit_amount, Long transactionId);
 
 }

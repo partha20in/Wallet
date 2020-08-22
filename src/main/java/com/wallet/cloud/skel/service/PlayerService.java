@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.wallet.cloud.skel.model.Player;
 
 public interface PlayerService {
-	Page<Player> getAllPlayerDetails(Pageable pageable);
+	Page<Player> getAllPlayerDetails(int number, int size, String sort);
 
 	Player insertNewPlayerDetails(Player pl);
 

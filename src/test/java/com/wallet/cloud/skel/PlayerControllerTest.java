@@ -28,14 +28,14 @@ public class PlayerControllerTest extends TestBase {
 
   }
   
-  @Test
-  public void testInsertNewPlayer() throws Exception {
-    Builder playerController = getBuilder("/app/api/1.0/players");
-    Account acc=new Account("100",10000l);
-    Player pl=new Player("Player1",Gender.MALE,19,acc);
-    Response player = playerController.post(Entity.json(pl));
-
-  }
+//  @Test
+//  public void testInsertNewPlayer() throws Exception {
+//    Builder playerController = getBuilder("/app/api/1.0/players");
+//    Account acc=new Account("100",10000l);
+//    Player pl=new Player("Player1",Gender.MALE,19,acc);
+//    Response player = playerController.post(Entity.json(pl));
+//
+//  }
   
 
   

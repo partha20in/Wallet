@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ import com.wallet.cloud.skel.service.TransactionServiceImpl;
 import io.swagger.annotations.Api;
 
 @Component
-@Path("/api/1.0/transactions")
+@Path("/api/v1/transactions")
 @Api()
 public class TransactionController {
 
@@ -47,19 +48,22 @@ public class TransactionController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	@Path("/transactionHistoryByAccountNumber/{accountnumber}")
-	public Page<Transaction> getTransactionByAccountNumber(Pageable pageable,@PathParam(value = "accountnumber") String accountnumber) {
+	@Path("/transactionhistorybyaccountNumber/{accountnumber}")
+	public Page<Transaction> getTransactionByAccountNumber(@QueryParam(value = "number") int number,
+			@QueryParam(value = "size") int size, @QueryParam(value = "sort") String sort,@PathParam(value = "accountnumber") String accountnumber) {
 		logger.info("In getTransactionByAccountNumber API");
-		return tservice.getAllTransactionsByAccountNumber(pageable,accountnumber);
+		return tservice.getAllTransactionsByAccountNumber(number,size,sort,accountnumber);
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	@Path("/transactionHistoryByPlayerName/{playerName}")
-	public Page<Transaction> getTransactionByPlayerName(Pageable pageable,@PathParam(value = "playerName") String playerName) {
+	@Path("/transactionhistorybyplayername/{playerName}")
+	public Page<Transaction> getTransactionByPlayerName(@QueryParam(value = "number") int number,
+			@QueryParam(value = "size") int size, @QueryParam(value = "sort") String sort,@PathParam(value = "playerName") String playerName) {
 		logger.info("In getTransactionByPlayerName API");
-		return tservice.getAllTransactionByPlayerName(pageable,playerName);
+		
+		return tservice.getAllTransactionByPlayerName(number,size,sort,playerName);
 	}
 
 }

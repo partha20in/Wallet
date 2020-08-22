@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import com.wallet.cloud.skel.service.PlayerServiceImpl;
 import io.swagger.annotations.Api;
 
 @Component
-@Path("/api/1.0/players")
+@Path("/api/v1/players")
 @Api()
 public class PlayerController {
 
@@ -32,9 +33,10 @@ public class PlayerController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
-	public Page<Player> getPlayers(Pageable pageable) {
+	public Page<Player> getPlayers(@QueryParam(value = "number") int number, @QueryParam(value = "size") int size,
+			@QueryParam(value = "sort") String sort) {
 		logger.info("In getAccountlist API");
-		return ps.getAllPlayerDetails(pageable);
+		return ps.getAllPlayerDetails(number, size, sort);
 	}
 
 	@POST

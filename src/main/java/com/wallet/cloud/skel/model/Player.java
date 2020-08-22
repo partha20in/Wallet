@@ -5,20 +5,26 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Player")
-public class Player extends AbstractEntity implements Serializable{
+@Table(name = "Player", indexes = { @Index(name = "wallet_player", columnList = "name,gender,age") })
+public class Player  implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	protected Long mId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	protected Long id;
 	@Column(unique = true)
 	private String name;
 	private Gender gender;
@@ -48,13 +54,13 @@ public class Player extends AbstractEntity implements Serializable{
 
 
 	public Long getId() {
-		return mId;
+		return id;
 	}
 
 
 
 	public void setId(Long Id) {
-		this.mId = Id;
+		this.id = Id;
 	}
 
 
@@ -115,7 +121,7 @@ public class Player extends AbstractEntity implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Player [mId=" + mId + ", name=" + name + ", gender=" + gender + ", age=" + age + ", account=" + account
+		return "Player [id=" + id + ", name=" + name + ", gender=" + gender + ", age=" + age + ", account=" + account
 				+ "]";
 	}
 	

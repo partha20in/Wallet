@@ -19,9 +19,10 @@ import com.wallet.cloud.skel.model.Account;
 import com.wallet.cloud.skel.model.Transaction;
 import com.wallet.cloud.skel.repository.AccountRepository;
 import com.wallet.cloud.skel.repository.TransactionRepository;
+import com.wallet.cloud.skel.util.PageUtil;
 
 @Service("TransactionService")
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl extends PageUtil implements TransactionService {
 
 	@Autowired
 	AccountRepository accrepo;
@@ -30,13 +31,19 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-	public Page<Transaction> getAllTransactionsByAccountNumber(Pageable pageable, String accountnumber) {
+	public Page<Transaction> getAllTransactionsByAccountNumber(int number, int size, String sort, String accountnumber) {
 		logger.info("Inside getAllTransactionsByAccountNumber Service");
-		return tranrepo.findByAccountNumber(pageable, accountnumber);
+		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
+
+		return tranrepo.findByAccountNumber(pageableObj, accountnumber);
 	}
 
-	public Page<Transaction> getAllTransactionByPlayerName(Pageable pageable, String playerName) {
+	public Page<Transaction> getAllTransactionByPlayerName(int number, int size, String sort, String playerName) {
 		logger.info("Inside getAllTransactionsByPlayerName Service");
-		return tranrepo.findByPlayerName(pageable, playerName);
+		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
+
+		return tranrepo.findByPlayerName(pageableObj, playerName);
 	}
+
+	
 }

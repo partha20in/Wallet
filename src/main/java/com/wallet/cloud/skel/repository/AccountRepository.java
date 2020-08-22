@@ -14,7 +14,7 @@ import com.wallet.cloud.skel.model.*;
 @Repository
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
-	Account findBymId(Long id);
+	Optional<Account> findById(Long id);
 
 	@SuppressWarnings("unchecked")
 	Account save(Account acc);

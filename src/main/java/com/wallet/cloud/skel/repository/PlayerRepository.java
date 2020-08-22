@@ -18,8 +18,7 @@ public interface PlayerRepository extends PagingAndSortingRepository<Player, Lon
 //	@Query("FROM Player WHERE name= ?1")
 	Player findByName(String name);
 
-	Page<Player> findAll(Pageable pageable);
-
+	
 	@SuppressWarnings("unchecked")
 	Player save(Player pl);
 

@@ -1,5 +1,6 @@
 package com.wallet.cloud.skel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,39 +32,39 @@ public class SkelApplication {
 	Account acc;
 	List<Account> accounts = new ArrayList<Account>();
 
-//	@Bean
-//	ApplicationRunner initItems(AccountRepository accountrepository, PlayerRepository playerrepository) {
-//		return args -> {
-//
-//			Stream.of("100", "200").forEach(number -> {
-//				acc = new Account();
-//				acc.setAccountNumber(number);
-//				acc.setBalance(10000l);
-//				accounts.add(acc);
-//
-//				accountrepository.save(acc);
-//
-//			});
-//			logger.info("Account info at start" + accounts);
-//
-//			Stream.of("Player1", "Player2").forEach((name) -> {
-//				player = new Player();
-//				player.setName(name);
-//				player.setAge(18);
-//				player.setGender(Gender.MALE);
-//				if (name.equals("Player1")) {
-//					player.setAccount(accounts.get(0));
-//				} else {
-//					player.setAccount(accounts.get(1));
-//				}
-//				playerrepository.save(player);
-//
-//			});
-//
-//			accountrepository.findAll().forEach(System.out::println);
-//			playerrepository.findAll().forEach(System.out::println);
-//
-//		};
-//	}
+	@Bean
+	ApplicationRunner initItems(AccountRepository accountrepository, PlayerRepository playerrepository) {
+		return args -> {
+
+			Stream.of("100", "200").forEach(number -> {
+				acc = new Account();
+				acc.setAccountNumber(number);
+				acc.setBalance(new BigDecimal(10000));
+				accounts.add(acc);
+
+				accountrepository.save(acc);
+
+			});
+			logger.info("Account info at start" + accounts);
+
+			Stream.of("Player1", "Player2").forEach((name) -> {
+				player = new Player();
+				player.setName(name);
+				player.setAge(18);
+				player.setGender(Gender.MALE);
+				if (name.equals("Player1")) {
+					player.setAccount(accounts.get(0));
+				} else {
+					player.setAccount(accounts.get(1));
+				}
+				playerrepository.save(player);
+
+			});
+
+			accountrepository.findAll().forEach(System.out::println);
+			playerrepository.findAll().forEach(System.out::println);
+
+		};
+	}
 
 }
