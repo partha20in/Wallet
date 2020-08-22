@@ -28,6 +28,7 @@ public class PlayerServiceImpl extends PageUtil implements PlayerService {
 	private static final Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
 	public Page<Player> getAllPlayerDetails(int number, int size, String sort) {
+		logger.debug("Inside getAllPlayerDetails API");
 		Pageable pageableObj = null;
 		try {
 			pageableObj = PageUtil.createPageRequest(number, size, sort);
@@ -42,7 +43,7 @@ public class PlayerServiceImpl extends PageUtil implements PlayerService {
 
 	public Player insertNewPlayerDetails(Player pl) {
 		try {
-			logger.info("Inside insertNewPlayerDetails service");
+			logger.debug("Inside insertNewPlayerDetails service");
 			Account a = new Account();
 			a.setBalance(pl.getAccount().getBalance());
 			a.setAccountNumber(pl.getAccount().getAccountNumber());

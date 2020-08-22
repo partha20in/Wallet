@@ -19,8 +19,8 @@ There is also implemented JUnit testcases in com.wallet.cloud.skel.AccountContro
 com.wallet.cloud.skel.PlayerControllerTest,com.wallet.cloud.skel.TransactionControllerTest,
 
 ### Task ###
-1) Current balance per player 
-URL- http://localhost:9443/app/api/v1/players      HTTP.GET  (Gives List of all players along with account details)
+1) Current balance per player with Paging
+Sample URL- http://localhost:9443/app/api/v1/players?number=0&size=4&sort=ASC      HTTP.GET  (Gives List of all players along with account details)
 
 2) Insert new player and map to new Account
 Sample URL- http://localhost:9443/app/api/v1/players     HTTP.POST
@@ -38,8 +38,8 @@ Sample Body in JSON -
         "id": 3
     }
 	
-3) Get list of all accounts
-Sample URL- http://localhost:9443/app/api/v1/accounts      HTTP.GET  
+3) Get list of all accounts with Paging
+Sample URL- http://localhost:9443/app/api/v1/accounts?number=0&size=4&sort=ASC     HTTP.GET  
 
 4) Credit per player. The caller will supply a transaction id that must be unique for all
 transactions. If the transaction id is not unique, the operation must fail. 

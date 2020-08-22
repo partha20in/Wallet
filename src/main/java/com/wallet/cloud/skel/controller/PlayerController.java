@@ -32,18 +32,18 @@ public class PlayerController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public Page<Player> getPlayers(@QueryParam(value = "number") int number, @QueryParam(value = "size") int size,
 			@QueryParam(value = "sort") String sort) {
-		logger.info("In getAccountlist API");
+		logger.debug("In getPlayersList API");
 		return ps.getAllPlayerDetails(number, size, sort);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Response<Player> insertPlayers(@RequestBody Player pl) {
-		logger.info("In insertPlayers API");
+		logger.debug("In insertPlayers API");
 		Player pla = ps.insertNewPlayerDetails(pl);
 		if (pla != null) {
 			return Response.ok();

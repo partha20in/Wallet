@@ -39,7 +39,7 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 	private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
 	public Page<Account> getAllAccounts(int number, int size, String sort) {
-		logger.info("In getAllAccountsService");
+		logger.debug("In getAllAccountsService");
 		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
 
 		return accrepo.findAll(pageableObj);
@@ -48,11 +48,11 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 	public Account creditAccount(String name, BigDecimal credit_amount, Long transactionId) {
 		try {
 			Optional<Transaction> tr = tranrepo.findByTransactionId(transactionId);
-			logger.info("In creditAccountService");
+			logger.debug("In creditAccountService");
 			if (tr.isPresent() == false) {
 
 				Player pl = prepo.findByName(name);
-				logger.info("Player" + pl);
+				logger.debug("Player detail" + pl);
 				Optional<Account> acc = accrepo.findById(pl.getAccount().getId());
 				Account a;
 				if (acc.isPresent()) {
@@ -84,7 +84,7 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 	public Account debitAccount(String name, BigDecimal debit_amount, Long transactionId) {
 		try {
 			Optional<Transaction> tr = tranrepo.findByTransactionId(transactionId);
-			logger.info("In debitAccountService");
+			logger.debug("In debitAccountService");
 			if (tr.isPresent() == false) {
 
 				Player pl = prepo.findByName(name);

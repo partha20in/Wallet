@@ -51,7 +51,7 @@ public class TransactionController {
 	@Path("/transactionhistorybyaccountnumber/{accountnumber}")
 	public Page<Transaction> getTransactionByAccountNumber(@QueryParam(value = "number") int number,
 			@QueryParam(value = "size") int size, @QueryParam(value = "sort") String sort,@PathParam(value = "accountnumber") String accountnumber) {
-		logger.info("In getTransactionByAccountNumber API");
+		logger.debug("In getTransactionByAccountNumber API");
 		return tservice.getAllTransactionsByAccountNumber(number,size,sort,accountnumber);
 	}
 
@@ -61,7 +61,7 @@ public class TransactionController {
 	@Path("/transactionhistorybyplayername/{playerName}")
 	public Page<Transaction> getTransactionByPlayerName(@QueryParam(value = "number") int number,
 			@QueryParam(value = "size") int size, @QueryParam(value = "sort") String sort,@PathParam(value = "playerName") String playerName) {
-		logger.info("In getTransactionByPlayerName API");
+		logger.debug("In getTransactionByPlayerName API");
 		
 		return tservice.getAllTransactionByPlayerName(number,size,sort,playerName);
 	}

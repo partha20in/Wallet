@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wallet.cloud.skel.SkelApplication;
+import com.wallet.cloud.skel.exception.ResourceUnavailableException;
 import com.wallet.cloud.skel.model.*;
 import com.wallet.cloud.skel.repository.AccountRepository;
 //import com.wallet.cloud.skel.repository.ItemRepository;
@@ -47,22 +48,23 @@ public class AccountController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public Page<Account> getAccounts(@QueryParam(value = "number") int number, @QueryParam(value = "size") int size,
 			@QueryParam(value = "sort") String sort) {
 
-		logger.info("In getAccount list API");
+		logger.debug("In getAccount list API");
 
 		return accser.getAllAccounts(number, size, sort);
+
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	@Path("/credit/{name}/{amount}/{transactionId}")
 	public Response<Account> addCreditsAccounts(@PathParam(value = "name") String name,
 			@PathParam(value = "amount") BigDecimal amount, @PathParam(value = "transactionId") Long transactionId) {
-		logger.info("In addCreditAccounts API");
+		logger.debug("In addCreditAccounts API");
 		Account acc = accser.creditAccount(name, amount, transactionId);
 		if (acc != null) {
 			return Response.ok();
@@ -72,11 +74,11 @@ public class AccountController {
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	@Path("/debit/{name}/{amount}/{transactionId}")
 	public Response<Account> debitAccounts(@PathParam(value = "name") String name,
 			@PathParam(value = "amount") BigDecimal amount, @PathParam(value = "transactionId") Long transactionId) {
-		logger.info("In debitAccounts API");
+		logger.debug("In debitAccounts API");
 		Account acc = accser.debitAccount(name, amount, transactionId);
 		if (acc != null) {
 			return Response.ok();
