@@ -55,11 +55,15 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 				if (acc.isPresent()) {
 					a = acc.get();
 					BigDecimal balance = a.getBalance();
-					if (credit_amount.compareTo(BigDecimal.ZERO) == 1) {
+					Double credit_amt = credit_amount.doubleValue();
+					if (credit_amt>0) {
 						BigDecimal final_amount = balance.add(credit_amount);
 						a.setBalance(final_amount);
 						tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.getName(), credit_amount,
 								a.getBalance(), new Timestamp(System.currentTimeMillis())));
+					}
+					else {
+						throw new Exception();
 					}
 				} else {
 					throw new Exception();
