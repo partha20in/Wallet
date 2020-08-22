@@ -20,10 +20,10 @@ com.wallet.cloud.skel.PlayerControllerTest,com.wallet.cloud.skel.TransactionCont
 
 ### Task ###
 1) Current balance per player 
-URL- http://localhost:9443/app/api/1.0/players      HTTP.GET  (Gives List of all players along with account details)
+URL- http://localhost:9443/app/api/v1/players      HTTP.GET  (Gives List of all players along with account details)
 
 2) Insert new player and map to new Account
-Sample URL- http://localhost:9443/app/api/1.0/players     HTTP.POST
+Sample URL- http://localhost:9443/app/api/v1/players     HTTP.POST
 Content-type=application/json 
 Sample Body in JSON - 
 {
@@ -39,30 +39,30 @@ Sample Body in JSON -
     }
 	
 3) Get list of all accounts
-Sample URL- http://localhost:9443/app/api/1.0/accounts      HTTP.GET  
+Sample URL- http://localhost:9443/app/api/v1/accounts      HTTP.GET  
 
 4) Credit per player. The caller will supply a transaction id that must be unique for all
 transactions. If the transaction id is not unique, the operation must fail. 
 
-Sample URL- http://localhost:9443/app/api/1.0/accounts/credit/Player1/4000/1   HTTP.PUT
-URL Structure-http://localhost:9443/app/api/1.0/accounts/credit/{PlayerName}/{credit_amount}/{Unique_Transaction_Id}
+Sample URL- http://localhost:9443/app/api/v1/accounts/credit/Player1/4000/1   HTTP.PUT
+URL Structure-http://localhost:9443/app/api/v1/accounts/credit/{PlayerName}/{credit_amount}/{Unique_Transaction_Id}
 
 5)  Debit /Withdrawal per player A debit transaction will only succeed if there are
 sufficient funds on the account (balance - debit amount >= 0).
 The caller will supply a transaction id that must be unique for all transactions. If the
 transaction id is not unique, the operation must fail. 
 
-Sample URL- http://localhost:9443/app/api/1.0/accounts/debit/Player1/4000/2   HTTP.PUT
-URL Structure-http://localhost:9443/app/api/1.0/accounts/debit/{PlayerName}/{debit_amount}/{Unique_Transaction_Id}
+Sample URL- http://localhost:9443/app/api/v1/accounts/debit/Player1/4000/2   HTTP.PUT
+URL Structure-http://localhost:9443/app/api/v1/accounts/debit/{PlayerName}/{debit_amount}/{Unique_Transaction_Id}
 
 6) Transaction History per player
 
-Sample URL- http://localhost:9443/app/api/1.0/transactions/transactionHistoryByPlayerName/Player1  HTTP.GET
-Url Structure: http://localhost:9443/app/api/1.0/transactions/transactionHistoryByPlayerName/{PlayerName}
+Sample URL- http://localhost:9443/app/api/v1/transactions/transactionhistorybyplayername/Player1  HTTP.GET
+Url Structure: http://localhost:9443/app/api/v1/transactions/transactionhistorybyplayername/{PlayerName}
 
 7)Transaction History by accountNumber
-Sample URL- http://localhost:9443/app/api/1.0/transactions/transactionHistoryByAccountNumber/100   HTTP.GET
-Url Structure: http://localhost:9443/app/api/1.0/transactions/transactionHistoryByAccountNumber/{AccountNumber}
+Sample URL- http://localhost:9443/app/api/v1/transactions/transactionhistorybyaccountnumber/100   HTTP.GET
+Url Structure: http://localhost:9443/app/api/v1/transactions/transactionhistorybyaccountnumber/{AccountNumber}
 
 8) To persist data after restart of application , I have added this properties in application.properties file,hence storing 
 the data in local file :

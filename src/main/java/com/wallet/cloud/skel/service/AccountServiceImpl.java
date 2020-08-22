@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+
+import com.wallet.cloud.skel.exception.ResourceUnavailableException;
+import com.wallet.cloud.skel.exception.UnauthorizedActionException;
 import com.wallet.cloud.skel.model.Account;
 import com.wallet.cloud.skel.model.Player;
 import com.wallet.cloud.skel.model.Transaction;
@@ -56,24 +59,24 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 					a = acc.get();
 					BigDecimal balance = a.getBalance();
 					Double credit_amt = credit_amount.doubleValue();
-					if (credit_amt>0) {
+					if (credit_amt > 0) {
 						BigDecimal final_amount = balance.add(credit_amount);
 						a.setBalance(final_amount);
 						tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.getName(), credit_amount,
 								a.getBalance(), new Timestamp(System.currentTimeMillis())));
-					}
-					else {
-						throw new Exception();
+					} else {
+						throw new UnauthorizedActionException("Credit amount should be more than 0");
 					}
 				} else {
-					throw new Exception();
+					throw new ResourceUnavailableException("Account does not exist");
 				}
 				return a;
 			} else {
-				throw new Exception();
+				throw new UnauthorizedActionException("Duplicate transaction Id");
 			}
-		} catch (Exception ex) {
-			logger.error("Transaction id should be Unique");
+		} catch (UnauthorizedActionException | ResourceUnavailableException exp) {
+
+			logger.error(exp.getMessage());
 		}
 		return null;
 	}
@@ -99,20 +102,21 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 						final_balance = balance.subtract(debit_amount);
 						a.setBalance(final_balance);
 					} else {
-						throw new Exception();
+						throw new UnauthorizedActionException(
+								"Debit amount should be more than 0 and also account balance should be greater than 0");
 					}
 				} else {
-					throw new Exception();
+					throw new ResourceUnavailableException("Account does not exist");
 				}
 
 				tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.getName(), debit_amount,
 						a.getBalance(), new Timestamp(System.currentTimeMillis())));
 				return a;
 			} else {
-				throw new Exception();
+				throw new UnauthorizedActionException("Duplicate transaction Id");
 			}
-		} catch (Exception e) {
-			logger.error("Transaction id should be Unique and also maintain minimum balance above O");
+		} catch (UnauthorizedActionException | ResourceUnavailableException ex) {
+			logger.error(ex.getMessage());
 		}
 		return null;
 	}

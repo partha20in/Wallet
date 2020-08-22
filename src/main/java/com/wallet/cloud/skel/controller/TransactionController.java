@@ -48,7 +48,7 @@ public class TransactionController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	@Path("/transactionhistorybyaccountNumber/{accountnumber}")
+	@Path("/transactionhistorybyaccountnumber/{accountnumber}")
 	public Page<Transaction> getTransactionByAccountNumber(@QueryParam(value = "number") int number,
 			@QueryParam(value = "size") int size, @QueryParam(value = "sort") String sort,@PathParam(value = "accountnumber") String accountnumber) {
 		logger.info("In getTransactionByAccountNumber API");

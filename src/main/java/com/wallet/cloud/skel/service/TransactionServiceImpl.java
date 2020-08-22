@@ -31,19 +31,19 @@ public class TransactionServiceImpl extends PageUtil implements TransactionServi
 
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-	public Page<Transaction> getAllTransactionsByAccountNumber(int number, int size, String sort, String accountnumber) {
-		logger.info("Inside getAllTransactionsByAccountNumber Service");
+	public Page<Transaction> getAllTransactionsByAccountNumber(int number, int size, String sort,
+			String accountnumber) {
+		logger.debug("Inside getAllTransactionsByAccountNumber Service");
 		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
 
 		return tranrepo.findByAccountNumber(pageableObj, accountnumber);
 	}
 
 	public Page<Transaction> getAllTransactionByPlayerName(int number, int size, String sort, String playerName) {
-		logger.info("Inside getAllTransactionsByPlayerName Service");
+		logger.debug("Inside getAllTransactionsByPlayerName Service");
 		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
 
 		return tranrepo.findByPlayerName(pageableObj, playerName);
 	}
 
-	
 }

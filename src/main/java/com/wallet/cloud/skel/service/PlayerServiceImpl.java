@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.wallet.cloud.skel.exception.InvalidParametersException;
+import com.wallet.cloud.skel.exception.PlayerAlreadyExistsException;
 import com.wallet.cloud.skel.model.Account;
 import com.wallet.cloud.skel.model.Player;
 import com.wallet.cloud.skel.repository.AccountRepository;
@@ -25,8 +28,15 @@ public class PlayerServiceImpl extends PageUtil implements PlayerService {
 	private static final Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
 	public Page<Player> getAllPlayerDetails(int number, int size, String sort) {
-		Pageable pageableObj = PageUtil.createPageRequest(number, size, sort);
-
+		Pageable pageableObj = null;
+		try {
+			pageableObj = PageUtil.createPageRequest(number, size, sort);
+			if (pageableObj == null) {
+				throw new InvalidParametersException("Request parameter invalid");
+			}
+		} catch (InvalidParametersException e) {
+			logger.error(e.getMessage());
+		}
 		return playrepo.findAll(pageableObj);
 	}
 
@@ -38,17 +48,18 @@ public class PlayerServiceImpl extends PageUtil implements PlayerService {
 			a.setAccountNumber(pl.getAccount().getAccountNumber());
 
 			Player p = new Player(pl.getName(), pl.getGender(), pl.getAge(), a);
-			if (p != null && a != null) {
+
+			if (p != null && a != null && playrepo.findByName(pl.getName()) == null) {
 				accountRepo.save(a);
 				return playrepo.save(p);
 
 			} else {
-				throw new Exception();
+				throw new PlayerAlreadyExistsException("Player already exist");
 			}
 
-		} catch (Exception e) {
+		} catch (PlayerAlreadyExistsException e) {
 
-			logger.error("Duplicate AccountNumber or PlayerName");
+			logger.error(e.getMessage());
 		}
 		return null;
 
