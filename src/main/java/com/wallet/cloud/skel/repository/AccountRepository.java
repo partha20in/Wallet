@@ -16,6 +16,8 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
 
 	Optional<Account> findById(Long id);
 
+	Optional<Account> findByAccountNumber(String accountnumber);
+
 	@SuppressWarnings("unchecked")
 	Account save(Account acc);
 

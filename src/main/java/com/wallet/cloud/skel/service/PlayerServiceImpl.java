@@ -1,6 +1,8 @@
 package com.wallet.cloud.skel.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +51,14 @@ public class PlayerServiceImpl extends PageUtil implements PlayerService {
 			a.setAccountNumber(pl.getAccount().getAccountNumber());
 
 			Player p = new Player(pl.getName(), pl.getGender(), pl.getAge(), a);
-
-			if (p != null && a != null && playrepo.findByName(pl.getName()) == null) {
+			Optional<Player> player = playrepo.findByName(pl.getName());
+			Optional<Account> account = accountRepo.findByAccountNumber(pl.getAccount().getAccountNumber());
+			if (p != null && a != null && !(player.isPresent()) && !(account.isPresent())) {
 				accountRepo.save(a);
 				return playrepo.save(p);
 
 			} else {
-				throw new PlayerAlreadyExistsException("Player already exist");
+				throw new PlayerAlreadyExistsException("Player or account number already exist ");
 			}
 
 		} catch (PlayerAlreadyExistsException e) {

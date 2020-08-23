@@ -16,7 +16,7 @@ import com.wallet.cloud.skel.model.*;
 public interface PlayerRepository extends PagingAndSortingRepository<Player, Long> {
 
 //	@Query("FROM Player WHERE name= ?1")
-	Player findByName(String name);
+	Optional<Player> findByName(String name);
 
 	
 	@SuppressWarnings("unchecked")

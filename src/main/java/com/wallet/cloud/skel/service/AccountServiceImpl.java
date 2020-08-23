@@ -48,12 +48,13 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 	public Account creditAccount(String name, BigDecimal credit_amount, Long transactionId) {
 		try {
 			Optional<Transaction> tr = tranrepo.findByTransactionId(transactionId);
+			Optional<Player> pl = prepo.findByName(name);
 			logger.debug("In creditAccountService");
-			if (tr.isPresent() == false) {
+			if (tr.isPresent() == false && pl.isPresent() == true) {
 
-				Player pl = prepo.findByName(name);
+				// Player pl = prepo.findByName(name);
 				logger.debug("Player detail" + pl);
-				Optional<Account> acc = accrepo.findById(pl.getAccount().getId());
+				Optional<Account> acc = accrepo.findById(pl.get().getAccount().getId());
 				Account a;
 				if (acc.isPresent()) {
 					a = acc.get();
@@ -62,8 +63,8 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 					if (credit_amt > 0) {
 						BigDecimal final_amount = balance.add(credit_amount);
 						a.setBalance(final_amount);
-						tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.getName(), credit_amount,
-								a.getBalance(), new Timestamp(System.currentTimeMillis())));
+						tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.get().getName(),
+								credit_amount, a.getBalance(), new Timestamp(System.currentTimeMillis())));
 					} else {
 						throw new UnauthorizedActionException("Credit amount should be more than 0");
 					}
@@ -72,7 +73,7 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 				}
 				return a;
 			} else {
-				throw new UnauthorizedActionException("Duplicate transaction Id");
+				throw new UnauthorizedActionException("Duplicate transaction Id or player not exist");
 			}
 		} catch (UnauthorizedActionException | ResourceUnavailableException exp) {
 
@@ -84,11 +85,12 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 	public Account debitAccount(String name, BigDecimal debit_amount, Long transactionId) {
 		try {
 			Optional<Transaction> tr = tranrepo.findByTransactionId(transactionId);
+			Optional<Player> pl = prepo.findByName(name);
 			logger.debug("In debitAccountService");
-			if (tr.isPresent() == false) {
+			if (tr.isPresent() == false&&pl.isPresent()==true) {
 
-				Player pl = prepo.findByName(name);
-				Optional<Account> acc = accrepo.findById(pl.getAccount().getId());
+				
+				Optional<Account> acc = accrepo.findById(pl.get().getAccount().getId());
 				Account a;
 				BigDecimal final_balance;
 				if (acc.isPresent()) {
@@ -109,11 +111,11 @@ public class AccountServiceImpl extends PageUtil implements AccountService {
 					throw new ResourceUnavailableException("Account does not exist");
 				}
 
-				tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.getName(), debit_amount,
+				tranrepo.save(new Transaction(transactionId, a.getAccountNumber(), pl.get().getName(), debit_amount,
 						a.getBalance(), new Timestamp(System.currentTimeMillis())));
 				return a;
 			} else {
-				throw new UnauthorizedActionException("Duplicate transaction Id");
+				throw new UnauthorizedActionException("Duplicate transaction Id or player not exist");
 			}
 		} catch (UnauthorizedActionException | ResourceUnavailableException ex) {
 			logger.error(ex.getMessage());

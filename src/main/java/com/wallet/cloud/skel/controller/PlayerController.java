@@ -47,8 +47,9 @@ public class PlayerController {
 		Player pla = ps.insertNewPlayerDetails(pl);
 		if (pla != null) {
 			return Response.ok();
+		} else {
+			return Response.exception();
 		}
-		return Response.badRequest();
 	}
 
 }
