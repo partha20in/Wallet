@@ -9,8 +9,8 @@ public class Response<T> {
 
 	private Status status;
 	private T payload;
-	private Object errors;
-	private Object metadata;
+	private String details;
+	private static String message = "Credit/debit amount should be more than 0,TransactionId should be Unique and provide valid account and player details";
 
 	public Status getStatus() {
 		return status;
@@ -29,21 +29,17 @@ public class Response<T> {
 
 	}
 
-	public Object getErrors() {
-		return errors;
+	
+
+	public String getDetails() {
+		return details;
 	}
 
-	public void setErrors(Object errors) {
-		this.errors = errors;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
-	public Object getMetadata() {
-		return metadata;
-	}
-
-	public void setMetadata(Object metadata) {
-		this.metadata = metadata;
-	}
+	
 
 	public static <T> Response<T> badRequest() {
 		Response<T> response = new Response<>();
@@ -84,6 +80,7 @@ public class Response<T> {
 	public static <T> Response<T> exception() {
 		Response<T> response = new Response<>();
 		response.setStatus(Status.EXCEPTION);
+		response.setDetails(message);
 		return response;
 	}
 
